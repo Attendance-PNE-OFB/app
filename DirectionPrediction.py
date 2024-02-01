@@ -4,7 +4,7 @@ Created on Wed Jan 31 13:34:10 2024
 
 @author: esto5
 """
-################################################TESTERRRRRRRRRRRRRRRRR LES EYESSSSS
+
 from ultralytics import YOLO
 import numpy as np
 from PIL import Image
@@ -14,16 +14,23 @@ import os
 import re
 from pydantic import BaseModel
 import validators
+import csv
 
 """
 [left,right,up,down,vertical]
 [0,0,0,0,0]
 """
 
-
+"""
+True if the path is an image, false otherwise
+"""
 def IsImage(path):
     return path.endswith(".jpg") or path.endswith(".png") or path.endswith(".jpeg")
 
+"""
+Get the images in an array form.
+Can be a folder, an image in local or an url
+"""
 def GetImage(path):
     image_names = []
     if os.path.isdir(path):
@@ -42,16 +49,7 @@ def GetImage(path):
         raise ValueError('Object unknow')
     return image_names
 
-#images = GetImage("https://cdn-s-www.ledauphine.com/images/F8760FA5-EE86-4DE0-A872-DABEE3B5F0BF/NW_raw/ce-qui-semble-etre-une-evidence-pour-une-bonne-partie-des-pratiquants-ne-l-est-pas-forcement-pour-le-grand-public-photo-le-dl-th-g-1624931170.jpg")
-#images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/")
-#images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/000000000036.jpg")
-images = GetImage("D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs")
 
-print(images)
-
-model = YOLO("yolov8n-pose.pt")
-
-results = model.predict(images, save=True)
 
 
 class GetKeypoint(BaseModel):
@@ -210,23 +208,93 @@ def GetDirectionHead(result,keypoints):
         return [0,0,0,1,0]
     else: return [0,0,0,0,0]
 
+def CreateUnicCsv(filename):
+    base_name, extension = os.path.splitext(filename)
+    counter = 0
+    while os.path.exists(filename):
+        counter += 1
+        filename = f"{base_name}_{counter}{extension}"
+    print(f"Le fichier CSV '{filename}' a été créé avec succès.")
+    return filename
 
-positions = ["left","right","up","down","vertical"]
-#for result in results:
-for i in range(len(results)):
-    result = results[i]
-    print()
-    print("Image ",os.path.splitext(result.path)[0])
-    result_keypoints = result.keypoints.xyn.cpu().numpy()
-    get_keypoint = GetKeypoint()
 
-    if len(result_keypoints) > 0 and len(result_keypoints[0]) > 0:
-        for j in range(len(result_keypoints)):
-            person = result_keypoints[j]
-            print("Personne ",j)
-            directions = GetDirection(person,get_keypoint)
-            for k in range(len(directions)):
-                direction = directions[k]
-                if direction!=0:
-                    print(positions[k],": ",direction)
-            print()
+def SaveResults(results):
+    directory = os.path.join(os.getcwd(), "results")
+    filename = CreateUnicCsv(os.path.join(directory, "results.csv"))
+    data = []
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(filename, mode='w+', newline='') as file:
+        data.append([])
+        data[0].extend(["image","nose_x" , "nose_y" , "left_eye_x" , "left_eye_y" , "right_eye_x" , "right_eye_y" , "left_ear_x" , "left_ear_y" , "right_ear_x" , "right_ear_y" , "left_shoulder_x" , "left_shoulder_y" , "right_shoulder_x" , "right_shoulder_y" , "left_elbow_x" , "left_elbow_y" , "right_elbow_x" , "right_elbow_y" , "left_wrist_x" , "left_wrist_y" , "right_wrist_y" , "right_wrist_y" , "left_hip_x" , "left_hip_y" , "right_hip_x" , "right_hip_y" , "left_knee_x" , "left_knee_y" , "right_knee_x" , "right_knee_y" , "left_ankle_x" , "left_ankle_y" , "right_ankle_x" , "right_ankle_y" ])
+        for i in range(len(results)):
+            result = results[i]
+            data.append([])
+            result_keypoints = result.keypoints.xyn.cpu().numpy()
+            keypoints = GetKeypoint()
+            if len(result_keypoints) > 0 and len(result_keypoints[0]) > 0:
+                for j in range(len(result_keypoints)):
+                    person = result_keypoints[j]
+                    nose_x, nose_y = person[keypoints.NOSE]
+                    left_eye_x, left_eye_y = person[keypoints.LEFT_EYE]
+                    right_eye_x, right_eye_y = person[keypoints.RIGHT_EYE]
+                    left_ear_x, left_ear_y = person[keypoints.LEFT_EAR]
+                    right_ear_x, right_ear_y = person[keypoints.RIGHT_EAR]
+                    left_shoulder_x, left_shoulder_y = person[keypoints.LEFT_SHOULDER]
+                    right_shoulder_x, right_shoulder_y = person[keypoints.RIGHT_SHOULDER]
+                    left_elbow_x, left_elbow_y = person[keypoints.LEFT_ELBOW]
+                    right_elbow_x, right_elbow_y = person[keypoints.RIGHT_ELBOW]
+                    left_wrist_x, left_wrist_y = person[keypoints.LEFT_WRIST]
+                    right_wrist_y, right_wrist_y = person[keypoints.RIGHT_WRIST]
+                    left_hip_x, left_hip_y = person[keypoints.LEFT_HIP]
+                    right_hip_x, right_hip_y = person[keypoints.RIGHT_HIP]
+                    left_knee_x, left_knee_y = person[keypoints.LEFT_KNEE]
+                    right_knee_x, right_knee_y = person[keypoints.RIGHT_KNEE]
+                    left_ankle_x, left_ankle_y  = person[keypoints.LEFT_ANKLE]
+                    right_ankle_x, right_ankle_y = person[keypoints.RIGHT_ANKLE]
+            data[i+1].append(result.path)
+            data[i+1].extend([nose_x , nose_y , left_eye_x , left_eye_y , right_eye_x , right_eye_y , left_ear_x , left_ear_y , right_ear_x , right_ear_y , left_shoulder_x , left_shoulder_y , right_shoulder_x , right_shoulder_y , left_elbow_x , left_elbow_y , right_elbow_x , right_elbow_y , left_wrist_x , left_wrist_y , right_wrist_y , right_wrist_y , left_hip_x , left_hip_y , right_hip_x , right_hip_y , left_knee_x , left_knee_y , right_knee_x , right_knee_y , left_ankle_x , left_ankle_y , right_ankle_x , right_ankle_y ])
+
+        writer = csv.writer(file)
+        writer.writerows(data)
+
+
+def PositionImages(model,images,save_results=False,save=False,txt=False,conf=False,crop=False):
+    model = YOLO(model) #Load the model
+    results = model.predict(images, save=save, save_txt=txt,save_conf=conf,save_crop=crop) #Generate the prediction
+    if save_results:
+        SaveResults(results)
+    return results
+
+def main():
+    #Chooose your photos
+    #images = GetImage("https://cdn-s-www.ledauphine.com/images/F8760FA5-EE86-4DE0-A872-DABEE3B5F0BF/NW_raw/ce-qui-semble-etre-une-evidence-pour-une-bonne-partie-des-pratiquants-ne-l-est-pas-forcement-pour-le-grand-public-photo-le-dl-th-g-1624931170.jpg")
+    #images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/")
+    #images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/000000000036.jpg")
+    images = GetImage("D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs")
+
+    #Get the results
+    results = PositionImages("yolov8n-pose.pt", images,save_results=True)
+
+    positions = ["left","right","up","down","vertical"]
+    #for result in results:
+    for i in range(len(results)):
+        result = results[i]
+        print()
+        print("Image ",os.path.splitext(result.path)[0])
+        result_keypoints = result.keypoints.xyn.cpu().numpy()
+        get_keypoint = GetKeypoint()
+
+        if len(result_keypoints) > 0 and len(result_keypoints[0]) > 0:
+            for j in range(len(result_keypoints)):
+                person = result_keypoints[j]
+                print("Personne ",j)
+                directions = GetDirection(person,get_keypoint)
+                for k in range(len(directions)):
+                    direction = directions[k]
+                    if direction!=0:
+                        print(positions[k],": ",direction)
+                print()
+
+if __name__ == '__main__':
+    main()
