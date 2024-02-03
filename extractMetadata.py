@@ -1,7 +1,6 @@
 import exiftool
 import re
 
-
 def extractMetadata(file_path):
     human_pattern = r'^humain.*'
     man_pattern = r'^homme.*'
@@ -13,18 +12,15 @@ def extractMetadata(file_path):
     direction_pattern = r'^droite|gauche'
 
     result = {} # dictionnaire regroupant les noms des images, avec pour chacun leurs informations sous forme de dictionnaire (data)
-    data = {} # disctionnaire regroupant les informations de chaque image
-    genre = [] # liste de genre [nb_humains, nb_hommes, nb_femmes]
-    cat_age = [] # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
 
     with exiftool.ExifTool() as et:
         # Obtention des métadonnées de toutes les images du dossier séléctionné
         metadata = et.execute_json("-json", "-r", "-ext", "jpg", file_path)
 
     for i in range(len(metadata)):
-        data = {}
-        genre = []
-        cat_age = []
+        data = {} # disctionnaire regroupant les informations de chaque image
+        genre = [] # liste de genre [nb_humains, nb_hommes, nb_femmes]
+        cat_age = [] # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
 
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
@@ -54,8 +50,6 @@ def extractMetadata(file_path):
 
                 #----------------Partie Direction----------------
                 if re.match(direction_pattern, j):
-                    #print("direction:", j)
-                    direction = j
                     data['direction'] = j
 
             data['genre'] = genre
