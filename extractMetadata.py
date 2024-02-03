@@ -19,7 +19,9 @@ cat_age = [] # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
 with exiftool.ExifTool() as et:
 
     # Obtention des métadonnées de toutes les images du dossier séléctionné
-    metadata = et.execute_json("-json", "-r", "-ext", "jpg", "../photos/sur")
+
+    # Indiquer ici le dossier vers les images
+    metadata = et.execute_json("-json", "-r", "-ext", "jpg", "dossier/vers/images")
 
 for i in range(len(metadata)):
     data = {}
