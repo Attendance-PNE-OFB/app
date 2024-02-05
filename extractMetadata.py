@@ -1,3 +1,4 @@
+import os
 import exiftool
 import re
 import json
@@ -49,7 +50,7 @@ def extractMetadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 def dictionnary_to_json(dict):
-    f = open('metadata.json', 'w')
+    f = CreateUnicCsv('output/metadata.json')
     f.write("{\n")
     for key in dict:
         json_obj = json.dumps(key, indent=0)
@@ -67,6 +68,20 @@ def dictionnary_to_json(dict):
         else:
             f.write("},\n\n")
     f.write("}")
+    f.close()
 
-dict = (extractMetadata('lien/vers/dossier/photos'))
+def CreateUnicCsv(filename):
+    base_name, extension = os.path.splitext(filename)
+    counter = 0
+    if not os.path.exists('output/'):
+        os.makedirs('output/')
+    while os.path.exists(filename):
+        counter += 1
+        filename = f"{base_name}_{counter}{extension}"
+    print(f"Le fichier '{filename}' a été créé avec succès.")
+    f = open(filename, 'w')
+    return f
+
+dict = (extractMetadata('../photos/sur'))
 dictionnary_to_json(dict)
+
