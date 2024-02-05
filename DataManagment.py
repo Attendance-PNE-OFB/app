@@ -8,6 +8,8 @@ Created on Fri Feb  2 10:56:49 2024
 import csv
 import os
 from functions import GetKeypoint
+from PIL import Image
+import exiftool
 
 def CreateUnicCsv(filename):
     base_name, extension = os.path.splitext(filename)
@@ -19,24 +21,29 @@ def CreateUnicCsv(filename):
     return filename
 
 
-def SaveResults(results):
+def SaveResults(resultss):
     directory = os.path.join(os.getcwd(), "results")
     filename = CreateUnicCsv(os.path.join(directory, "results.csv"))
     data = []
     if not os.path.exists(directory):
         os.makedirs(directory)
-    with open(filename, mode='w+', newline='') as file:
-        data.append([])
-        data[0].extend(["image","nose_x" , "nose_y" , "left_eye_x" , "left_eye_y" , "right_eye_x" , "right_eye_y" , "left_ear_x" , "left_ear_y" , "right_ear_x" , "right_ear_y" , "left_shoulder_x" , "left_shoulder_y" , "right_shoulder_x" , "right_shoulder_y" , "left_elbow_x" , "left_elbow_y" , "right_elbow_x" , "right_elbow_y" , "left_wrist_x" , "left_wrist_y" , "right_wrist_y" , "right_wrist_y" , "left_hip_x" , "left_hip_y" , "right_hip_x" , "right_hip_y" , "left_knee_x" , "left_knee_y" , "right_knee_x" , "right_knee_y" , "left_ankle_x" , "left_ankle_y" , "right_ankle_x" , "right_ankle_y" ])
+    data.append([])
+    data[0].extend(["image","nose_x" , "nose_y" , "left_eye_x" , "left_eye_y" , "right_eye_x" , "right_eye_y" , "left_ear_x" , "left_ear_y" , "right_ear_x" , "right_ear_y" , "left_shoulder_x" , "left_shoulder_y" , "right_shoulder_x" , "right_shoulder_y" , "left_elbow_x" , "left_elbow_y" , "right_elbow_x" , "right_elbow_y" , "left_wrist_x" , "left_wrist_y" , "right_wrist_y" , "right_wrist_y" , "left_hip_x" , "left_hip_y" , "right_hip_x" , "right_hip_y" , "left_knee_x" , "left_knee_y" , "right_knee_x" , "right_knee_y" , "left_ankle_x" , "left_ankle_y" , "right_ankle_x" , "right_ankle_y" ])
+    print("nb ",len(resultss))
+    for results in resultss:
+        print("nb results",len(results))
         for i in range(len(results)):
             result = results[i]
-            data.append([])
-            data[i+1].append(result.path)
+            """ data.append([])
+            data[i+1].append(result.path)"""
             result_keypoints = result.keypoints.xyn.cpu().numpy()
             keypoints = GetKeypoint()
             if len(result_keypoints) > 0 and len(result_keypoints[0]) > 0:
                 for j in range(len(result_keypoints)):
-                    print
+                    print("nb result_keypoints",len(result_keypoints))
+                    data.append([])
+                    #data[i+1].append(result.path)
+                    data[len(data)-1].append(PathManagement(result.path))
                     person = result_keypoints[j]
                     nose_x, nose_y = person[keypoints.NOSE]
                     left_eye_x, left_eye_y = person[keypoints.LEFT_EYE]
@@ -55,10 +62,13 @@ def SaveResults(results):
                     right_knee_x, right_knee_y = person[keypoints.RIGHT_KNEE]
                     left_ankle_x, left_ankle_y  = person[keypoints.LEFT_ANKLE]
                     right_ankle_x, right_ankle_y = person[keypoints.RIGHT_ANKLE]
-                    data[i+1].extend([nose_x , nose_y , left_eye_x , left_eye_y , right_eye_x , right_eye_y , left_ear_x , left_ear_y , right_ear_x , right_ear_y , left_shoulder_x , left_shoulder_y , right_shoulder_x , right_shoulder_y , left_elbow_x , left_elbow_y , right_elbow_x , right_elbow_y , left_wrist_x , left_wrist_y , right_wrist_y , right_wrist_y , left_hip_x , left_hip_y , right_hip_x , right_hip_y , left_knee_x , left_knee_y , right_knee_x , right_knee_y , left_ankle_x , left_ankle_y , right_ankle_x , right_ankle_y ])
+                    data[len(data)-1].extend([nose_x , nose_y , left_eye_x , left_eye_y , right_eye_x , right_eye_y , left_ear_x , left_ear_y , right_ear_x , right_ear_y , left_shoulder_x , left_shoulder_y , right_shoulder_x , right_shoulder_y , left_elbow_x , left_elbow_y , right_elbow_x , right_elbow_y , left_wrist_x , left_wrist_y , right_wrist_y , right_wrist_y , left_hip_x , left_hip_y , right_hip_x , right_hip_y , left_knee_x , left_knee_y , right_knee_x , right_knee_y , left_ankle_x , left_ankle_y , right_ankle_x , right_ankle_y ])
+                    #data[i+1].extend([nose_x , nose_y , left_eye_x , left_eye_y , right_eye_x , right_eye_y , left_ear_x , left_ear_y , right_ear_x , right_ear_y , left_shoulder_x , left_shoulder_y , right_shoulder_x , right_shoulder_y , left_elbow_x , left_elbow_y , right_elbow_x , right_elbow_y , left_wrist_x , left_wrist_y , right_wrist_y , right_wrist_y , left_hip_x , left_hip_y , right_hip_x , right_hip_y , left_knee_x , left_knee_y , right_knee_x , right_knee_y , left_ankle_x , left_ankle_y , right_ankle_x , right_ankle_y ])
 
+    with open(filename, mode='w+', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(data)
+
     return filename
 
 def GetCsvDatas(path):
@@ -74,3 +84,14 @@ def GetCsvDatas(path):
     # Print the data list
     print(data_list)
     return data_list
+
+
+def GetMetadonnee(path):
+    # Créer une instance de ExifTool
+
+    with exiftool.ExifTool("C:/Users/esto5/anaconda3/envs/s101/Lib/site-packages/exiftool/exiftool.exe") as et:
+        # Exécuter la commande pour obtenir les métadonnées des images dans le dossier
+        metadata = et.execute_json("-json", "-r", "-ext", "jpg", path)
+    return metadata
+
+

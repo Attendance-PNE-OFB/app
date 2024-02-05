@@ -17,7 +17,7 @@ import requests
 True if the path is an image, false otherwise
 """
 def IsImage(path):
-    return path.endswith(".jpg") or path.endswith(".png") or path.endswith(".jpeg")
+    return path.endswith(".jpg") or path.endswith(".png") or path.endswith(".jpeg") or path.endswith(".JPG") or path.endswith(".PNG") or path.endswith(".JPEG")
 
 """
 Get the images in an array form.
@@ -27,7 +27,7 @@ def GetImage(path):
     image_names = []
     if os.path.isdir(path):
         for filename in os.listdir(path):
-            image = os.path.join(path,filename)
+            image = PathManagement(os.path.join(path,filename))
             if IsImage(image):
                 image_names.append(image)
     elif IsImage(path):
@@ -35,11 +35,15 @@ def GetImage(path):
             response = requests.get(path)
             image = Image.open(BytesIO(response.content))
             image_names.append(np.asarray(image))
+            image.close()
         else :
             image_names.append(path)
     else:
-        raise ValueError('Object unknow')
+        raise ValueError('Object unknow : ',path)
     return image_names
+
+def PathManagement(path):
+    return path.replace('\\', '/')
 
 class GetKeypoint(BaseModel):
     NOSE:           int = 0
