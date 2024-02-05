@@ -82,6 +82,6 @@ def CreateUnicCsv(filename):
     f = open(filename, 'w')
     return f
 
-dict = (extractMetadata('../photos/sur'))
+dict = (extractMetadata('lien/vers/dossier/photos'))
 dictionnary_to_json(dict)
 
