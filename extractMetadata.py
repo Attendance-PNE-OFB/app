@@ -3,7 +3,7 @@ import exiftool
 import re
 import json
 
-
+save_file_directory = './output_json/'
 def extract_metadata(file_path):
     human_pattern = r'^humain.*'
     man_pattern = r'^homme.*'
@@ -53,7 +53,8 @@ def extract_metadata(file_path):
 
 
 def dictionary_to_json(dict):
-    f = create_unic_file('output/metadata.json')
+    filename = create_unic_file(save_file_directory + 'metadata.json')
+    f = open(filename, "w")
     f.write("{\n")
     for key in dict:
         json_obj = json.dumps(key, indent=0)
@@ -77,14 +78,13 @@ def dictionary_to_json(dict):
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
     counter = 0
-    if not os.path.exists('output_json/'):
-        os.makedirs('output_json/')
+    if not os.path.exists(save_file_directory):
+        os.makedirs(save_file_directory)
     while os.path.exists(filename):
         counter += 1
         filename = f"{base_name}_{counter}{extension}"
     print(f"Le fichier '{filename}' a été créé avec succès.")
-    f = open(filename, 'w')
-    return f
+    return filename
 
 
 # Extraction des métadonnées des images du dossier 'sur'
