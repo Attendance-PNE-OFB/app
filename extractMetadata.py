@@ -25,8 +25,6 @@ def extract_metadata(file_path):
 
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
-
-                print(j)
                 if re.match(type_pattern, j):
                     data['type'] = j  # ajout du type d'activité
 
