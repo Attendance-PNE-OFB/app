@@ -13,7 +13,11 @@ def extract_metadata(file_path):
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
-    with exiftool.ExifTool() as et:
+    path = None
+    if os.name == 'nt':
+        path = os.path.join("C:/Users/esto5/anaconda3/envs/s101/Lib/site-packages/exiftool/exiftool.exe")
+
+    with exiftool.ExifTool(path) as et:
         # Obtention des métadonnées de toutes les images du dossier séléctionné
         metadata = et.execute_json("-json", "-r", "-ext", "jpg", file_path)
 
@@ -51,7 +55,6 @@ def extract_metadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 
-
 def dictionary_to_json(dict):
     filename = create_unic_file(save_file_directory + 'metadata.json')
     f = open(filename, "w")
@@ -74,7 +77,6 @@ def dictionary_to_json(dict):
     f.write("}")
     f.close()
 
-
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
     counter = 0
@@ -85,9 +87,3 @@ def create_unic_file(filename):
         filename = f"{base_name}_{counter}{extension}"
     print(f"Le fichier '{filename}' a été créé avec succès.")
     return filename
-
-
-# Extraction des métadonnées des images du dossier 'sur'
-res = (extract_metadata('../photos/sur'))
-# Conversion du dictionnaire en fichier json
-dictionary_to_json(res)
