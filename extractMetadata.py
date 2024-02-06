@@ -55,7 +55,6 @@ def extract_metadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 
-
 def dictionary_to_json(dict):
     filename = create_unic_file(save_file_directory + 'metadata.json')
     f = open(filename, "w")
@@ -90,5 +89,3 @@ def create_unic_file(filename):
         filename = f"{base_name}_{counter}{extension}"
     print(f"Le fichier '{filename}' a été créé avec succès.")
     return filename
-
-
