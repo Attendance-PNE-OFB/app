@@ -10,6 +10,7 @@ def extract_metadata(file_path):
     woman_pattern = r'^femme.*'
     age_pattern = r'^(((<|>)\d{1,2})|(\d{1,2}-\d{1,2}))ans$'
     direction_pattern = r'^droite|gauche'
+    type_pattern = r'^rando.*|^trail|vtt.*'
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
@@ -23,24 +24,21 @@ def extract_metadata(file_path):
 
     for i in range(len(metadata)):
         data = {}  # disctionnaire regroupant les informations de chaque image
-        genre = []  # liste de genre [nb_humains, nb_hommes, nb_femmes]
+        genre = {}  # liste de genre [nb_humains, nb_hommes, nb_femmes]
         cat_age = []  # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
 
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
-
-                if metadata[i]['XMP:Subject'].index(j) == 0:
+                if re.match(type_pattern, j):
                     data['type'] = j  # ajout du type d'activité
 
                 # -------------------Partie sexe-------------------
                 if re.match(human_pattern, j):
-                    genre.append(j[-2:])
+                    genre['humains'] = j[-2:]
                 elif re.match(man_pattern, j):
-                    genre.append(j[-2:])
+                    genre['hommes'] = j[-2:]
                 elif re.match(woman_pattern, j):
-                    genre.append(j[-2:])
-                elif len(genre) < 3:
-                    genre.append('0')
+                    genre['femmes'] = j[-2:]
 
                 # -------------Partie Catégorie d'âge-------------
                 if re.match(age_pattern, j):
