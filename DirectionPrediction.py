@@ -29,7 +29,7 @@ def PathChoice(choice):
         case _:
             return 'D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble'
 
-# Open the image file
+
 def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble',
          prediction=False,path_prediction='D:\\Folders\\Code\\Python\\app\\results\\results.csv',
          metadata_create=False,path_metadata='D:/Folders/Code/Python/app/output_json/metadata.json',
@@ -97,7 +97,7 @@ def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_202008
             if image_name in metadatas:                                         # If our image is in our metadatas
                 if metadata_direction_key in metadatas[image_name]:             # If the direction is in our metadatas
                     total_directions = total_directions + 1                     # The total of prediction increase
-                    if answer == metadatas[image_name][metadata_direction_key]: # If we have the good answer
+                    if answer in metadatas[image_name][metadata_direction_key]: # If we have the good answer
                         total_good_predictions = total_good_predictions + 1     # we give us a good point
                     else:                                                       # else display our errors
                         print(image_name)

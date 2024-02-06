@@ -82,6 +82,7 @@ def dictionary_to_json(dict):
             f.write("},\n\n")
     f.write("}")
     f.close()
+    return filename
 
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
