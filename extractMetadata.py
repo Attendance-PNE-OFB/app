@@ -9,8 +9,9 @@ def extract_metadata(file_path):
     man_pattern = r'^homme.*'
     woman_pattern = r'^femme.*'
     age_pattern = r'^(((<|>)\d{1,2})|(\d{1,2}-\d{1,2}))ans$'
-    direction_pattern = r'^droite|gauche'
-    type_pattern = r'^rando.*|^trail|vtt.*'
+    direction_d_pattern = r'^droite.*'
+    direction_g_pattern = r'^gauche.*'
+    type_pattern = [r'^rando.*', r'^trail.*', r'vtt.*']
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
@@ -25,12 +26,15 @@ def extract_metadata(file_path):
     for i in range(len(metadata)):
         data = {}  # disctionnaire regroupant les informations de chaque image
         genre = {}  # liste de genre [nb_humains, nb_hommes, nb_femmes]
+        direction = [] # liste de direction [droite, gauche]
         cat_age = []  # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
+        type = []  # liste de type d'activité [rando, trail, vtt, ...]
 
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
-                if re.match(type_pattern, j):
-                    data['type'] = j  # ajout du type d'activité
+                for k in range(len(type_pattern)):
+                    if re.match(type_pattern[k], j):
+                        type.append(j)  # ajout du type d'activité
 
                 # -------------------Partie sexe-------------------
                 if re.match(human_pattern, j):
@@ -45,9 +49,13 @@ def extract_metadata(file_path):
                     cat_age.append(j)
 
                 # ----------------Partie Direction----------------
-                if re.match(direction_pattern, j):
-                    data['direction'] = j
+                if re.match(direction_d_pattern, j):
+                    direction.append(j)
+                elif re.match(direction_g_pattern, j):
+                    direction.append(j)
 
+            data['type'] = type
+            data['direction'] = direction
             data['genre'] = genre
             data['age'] = cat_age
         result[metadata[i]['File:FileName']] = data
