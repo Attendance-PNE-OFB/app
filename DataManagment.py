@@ -91,12 +91,3 @@ def GetCsvDatas(path):
 def PathLeaf(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
-"""
-def GetMetadonnee(path):
-    # Créer une instance de ExifTool
-
-    with exiftool.ExifTool("C:/Users/esto5/anaconda3/envs/s101/Lib/site-packages/exiftool/exiftool.exe") as et:
-        # Exécuter la commande pour obtenir les métadonnées des images dans le dossier
-        metadata = et.execute_json("-json", "-r", "-ext", "jpg", path)
-    return metadata
-"""

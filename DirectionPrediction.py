@@ -32,7 +32,8 @@ def PathChoice(choice):
 # Open the image file
 def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble',
          prediction=False,path_prediction='D:\\Folders\\Code\\Python\\app\\results\\results.csv',
-         metadata_create=False,path_metadata='D:/Folders/Code/Python/app/output_json/metadata.json'):
+         metadata_create=False,path_metadata='D:/Folders/Code/Python/app/output_json/metadata.json',
+         test=False):
     print("start")
 
     # Get your photos
@@ -40,7 +41,7 @@ def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_202008
 
     #For predict the images
     if prediction :
-        filename = PositionImages("yolov8n-pose.pt", images)
+        filename = PositionImages("yolov8n-pose.pt", images, save=True)
         results = GetCsvDatas(filename)[1:]
     else:
         results = GetCsvDatas(path_prediction)[1:]
@@ -52,18 +53,19 @@ def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_202008
         for i in range(1, len(liste)):  # For each predicitons predicted
             liste[i] = float(liste[i])  # Converte the str in float
 
-    if metadata_create:
-        metadatas = (extract_metadata(images_path)) # Extraction des métadonnées des images du dossier 'sur'
-        path_metadata = dictionary_to_json(metadatas) # Conversion du dictionnaire en fichier json
+    if test :
+        if metadata_create:
+            metadatas = (extract_metadata(images_path)) # Extraction des métadonnées des images du dossier 'sur'
+            path_metadata = dictionary_to_json(metadatas) # Conversion du dictionnaire en fichier json
 
-    with open(path_metadata) as file:
-        metadatas = file.read()
-        metadatas = json.loads(metadatas)
+        with open(path_metadata) as file:
+            metadatas = file.read()
+            metadatas = json.loads(metadatas)
 
 
-    total_directions = 0
-    total_good_predictions= 0
-    metadata_direction_key = "direction"
+    total_directions = 0                    # total of availible prediction
+    total_good_predictions= 0               # total of good predictions
+    metadata_direction_key = "direction"    # key of the metadata direction
 
     for result in results:
         image_path = result[0]
@@ -91,17 +93,21 @@ def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_202008
                     answer = str(positions_head[k])+": "+str(direction)
             if answer == "":
                 answer = "rien"
+        if test:
+            if image_name in metadatas:                                         # If our image is in our metadatas
+                if metadata_direction_key in metadatas[image_name]:             # If the direction is in our metadatas
+                    total_directions = total_directions + 1                     # The total of prediction increase
+                    if answer == metadatas[image_name][metadata_direction_key]: # If we have the good answer
+                        total_good_predictions = total_good_predictions + 1     # we give us a good point
+                    else:                                                       # else display our errors
+                        print(image_name)
+                        print(answer, " != ",metadatas[image_name][metadata_direction_key])
+                        print()
+        else:
+            print(image_name)
+            print(answer)
 
-        if image_name in metadatas:                                         # If our image is in our metadatas
-            if metadata_direction_key in metadatas[image_name]:             # If the direction is in our metadatas
-                total_directions = total_directions + 1                     # The total of prediction increase
-                if answer == metadatas[image_name][metadata_direction_key]: # If we have the good answer
-                    total_good_predictions = total_good_predictions + 1     # we give us a good point
-                else:                                                       # else display our errors
-                    print(image_name)
-                    print(answer, " != ",metadatas[image_name][metadata_direction_key])
-                    print()
     print(str(total_good_predictions),"/",str(total_directions))
 
 if __name__ == '__main__':
-    main(images_path=PathChoice(1), prediction=True,metadata_create=True)
+    main(images_path=PathChoice(1), prediction=True,metadata_create=True, test=True)
