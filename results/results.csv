@@ -1,0 +1,732 @@
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\9ef25eb8-f603-4768-9fe3-9d668abd8c58.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[117, 128, 102],
+        [103, 112,  85],
+        [ 90,  99,  72],
+        ...,
+        [253, 252, 254],
+        [253, 252, 254],
+        [253, 252, 254]],
+
+       [[117, 128, 102],
+        [104, 113,  87],
+        [ 92, 101,  74],
+        ...,
+        [253, 253, 253],
+        [253, 253, 253],
+        [253, 253, 253]],
+
+       [[118, 128, 105],
+        [106, 115,  89],
+        [ 95, 104,  78],
+        ...,
+        [253, 253, 253],
+        [253, 253, 253],
+        [253, 253, 253]],
+
+       ...,
+
+       [[194, 204, 211],
+        [211, 221, 228],
+        [220, 228, 235],
+        ...,
+        [124, 171, 203],
+        [ 94, 144, 172],
+        [ 86, 140, 163]],
+
+       [[210, 213, 227],
+        [214, 219, 228],
+        [217, 222, 225],
+        ...,
+        [149, 199, 221],
+        [110, 164, 187],
+        [115, 172, 194]],
+
+       [[210, 213, 227],
+        [214, 219, 228],
+        [217, 222, 225],
+        ...,
+        [145, 195, 217],
+        [101, 155, 178],
+        [ 97, 154, 176]]], dtype=uint8)
+orig_shape: (442, 664)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\9ef25eb8-f603-4768-9fe3-9d668abd8c58.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\image.png,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[  5,   4,   5],
+        [  5,   4,   4],
+        [  4,   3,   3],
+        ...,
+        [  0,   2,   0],
+        [  0,   2,   0],
+        [  0,   2,   0]],
+
+       [[  5,   4,   5],
+        [  5,   4,   4],
+        [  4,   3,   3],
+        ...,
+        [  0,   2,   0],
+        [  0,   2,   0],
+        [  0,   2,   0]],
+
+       [[  5,   4,   5],
+        [  5,   4,   4],
+        [  4,   3,   3],
+        ...,
+        [  0,   2,   0],
+        [  0,   2,   0],
+        [  0,   2,   0]],
+
+       ...,
+
+       [[ 62,  83,  88],
+        [ 63,  81,  87],
+        [ 63,  78,  87],
+        ...,
+        [163, 168, 170],
+        [151, 156, 159],
+        [127, 132, 135]],
+
+       [[ 66,  87,  92],
+        [ 65,  83,  90],
+        [ 64,  79,  89],
+        ...,
+        [164, 169, 171],
+        [152, 156, 159],
+        [128, 131, 134]],
+
+       [[ 69,  90,  95],
+        [ 68,  86,  92],
+        [ 65,  80,  89],
+        ...,
+        [165, 170, 171],
+        [152, 157, 160],
+        [128, 132, 136]]], dtype=uint8)
+orig_shape: (500, 885)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\image.png'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\istockphoto-1189969126-612x612.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[86, 57, 18],
+        [87, 58, 19],
+        [87, 58, 19],
+        ...,
+        [89, 62, 18],
+        [89, 62, 18],
+        [89, 62, 18]],
+
+       [[87, 58, 19],
+        [87, 58, 19],
+        [87, 58, 19],
+        ...,
+        [89, 62, 18],
+        [89, 62, 18],
+        [89, 62, 18]],
+
+       [[87, 58, 19],
+        [87, 58, 19],
+        [87, 58, 19],
+        ...,
+        [89, 62, 18],
+        [89, 62, 18],
+        [89, 62, 18]],
+
+       ...,
+
+       [[11, 16, 15],
+        [11, 16, 15],
+        [11, 16, 15],
+        ...,
+        [ 0, 16, 31],
+        [15, 35, 52],
+        [31, 54, 70]],
+
+       [[17, 22, 21],
+        [13, 18, 17],
+        [ 9, 14, 13],
+        ...,
+        [ 0, 10, 16],
+        [ 1, 15, 21],
+        [ 2, 18, 25]],
+
+       [[26, 31, 30],
+        [18, 23, 22],
+        [ 9, 14, 13],
+        ...,
+        [ 7, 13,  8],
+        [ 3, 10,  5],
+        [ 2,  9,  6]]], dtype=uint8)
+orig_shape: (408, 612)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\istockphoto-1189969126-612x612.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\les-randonneurs-d-aider-les-uns-les-autres-brn803.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[134,  94,  69],
+        [139,  99,  74],
+        [140,  99,  76],
+        ...,
+        [161, 116,  95],
+        [163, 120,  99],
+        [164, 121, 100]],
+
+       [[136,  96,  68],
+        [140,  99,  74],
+        [141, 100,  75],
+        ...,
+        [159, 114,  93],
+        [162, 119,  98],
+        [163, 120,  99]],
+
+       [[137,  97,  69],
+        [141, 101,  73],
+        [140,  99,  74],
+        ...,
+        [158, 113,  92],
+        [161, 118,  97],
+        [162, 119,  98]],
+
+       ...,
+
+       [[  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1],
+        ...,
+        [  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1]],
+
+       [[  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1],
+        ...,
+        [  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1]],
+
+       [[  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1],
+        ...,
+        [  1,   1,   1],
+        [  1,   1,   1],
+        [  1,   1,   1]]], dtype=uint8)
+orig_shape: (1390, 866)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\les-randonneurs-d-aider-les-uns-les-autres-brn803.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\les_randonneurs.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[ 82,  61,  33],
+        [ 81,  60,  32],
+        [ 80,  59,  31],
+        ...,
+        [227, 238, 242],
+        [225, 237, 241],
+        [224, 236, 240]],
+
+       [[ 81,  60,  32],
+        [ 80,  59,  31],
+        [ 79,  58,  30],
+        ...,
+        [226, 237, 241],
+        [224, 236, 240],
+        [223, 235, 239]],
+
+       [[ 80,  59,  31],
+        [ 79,  58,  30],
+        [ 79,  58,  30],
+        ...,
+        [224, 235, 239],
+        [222, 233, 237],
+        [222, 233, 237]],
+
+       ...,
+
+       [[ 56,  55,  51],
+        [ 56,  55,  51],
+        [ 55,  54,  50],
+        ...,
+        [101, 111,  99],
+        [100, 110,  98],
+        [100, 110,  98]],
+
+       [[ 56,  55,  51],
+        [ 56,  55,  51],
+        [ 55,  54,  50],
+        ...,
+        [102, 112, 100],
+        [101, 111,  99],
+        [101, 111,  99]],
+
+       [[ 55,  54,  50],
+        [ 55,  54,  50],
+        [ 55,  54,  50],
+        ...,
+        [104, 114, 102],
+        [103, 113, 101],
+        [102, 112, 100]]], dtype=uint8)
+orig_shape: (697, 1200)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\les_randonneurs.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\pexels-eric-sanman-1365425.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[251, 251, 251],
+        [251, 251, 251],
+        [251, 251, 251],
+        ...,
+        [160, 158, 164],
+        [159, 157, 163],
+        [158, 156, 162]],
+
+       [[251, 251, 251],
+        [251, 251, 251],
+        [251, 251, 251],
+        ...,
+        [160, 158, 164],
+        [160, 158, 164],
+        [160, 158, 164]],
+
+       [[251, 251, 251],
+        [251, 251, 251],
+        [251, 251, 251],
+        ...,
+        [160, 158, 164],
+        [161, 159, 165],
+        [162, 160, 166]],
+
+       ...,
+
+       [[ 55,  73,  90],
+        [ 56,  72,  88],
+        [ 56,  72,  85],
+        ...,
+        [  0,   5,  22],
+        [  0,   6,  23],
+        [  0,   8,  25]],
+
+       [[ 64,  82,  99],
+        [ 55,  73,  90],
+        [ 49,  65,  81],
+        ...,
+        [  0,   4,  23],
+        [  0,   3,  22],
+        [  0,   3,  22]],
+
+       [[ 65,  85, 103],
+        [ 52,  70,  87],
+        [ 39,  55,  71],
+        ...,
+        [  0,  12,  31],
+        [  0,  10,  29],
+        [  0,   5,  24]]], dtype=uint8)
+orig_shape: (3456, 5184)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\pexels-eric-sanman-1365425.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\photo-association-randonneurs-de-montrichard-scaled.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[210, 202, 195],
+        [209, 201, 194],
+        [211, 201, 194],
+        ...,
+        [  7,  10,  14],
+        [ 10,  13,  17],
+        [ 11,  14,  18]],
+
+       [[209, 201, 194],
+        [209, 201, 194],
+        [212, 202, 195],
+        ...,
+        [  7,  10,  14],
+        [  9,  12,  16],
+        [ 11,  14,  18]],
+
+       [[208, 200, 193],
+        [209, 201, 194],
+        [212, 202, 195],
+        ...,
+        [  6,   9,  13],
+        [  8,  11,  15],
+        [  9,  12,  16]],
+
+       ...,
+
+       [[ 14,  93,  80],
+        [ 17,  93,  81],
+        [ 18,  89,  79],
+        ...,
+        [ 21,  18,  27],
+        [ 21,  16,  25],
+        [ 20,  15,  24]],
+
+       [[ 11,  88,  74],
+        [ 11,  85,  73],
+        [ 12,  81,  70],
+        ...,
+        [ 21,  16,  25],
+        [ 20,  15,  24],
+        [ 18,  13,  22]],
+
+       [[ 12,  87,  73],
+        [  9,  81,  68],
+        [  9,  78,  65],
+        ...,
+        [ 21,  16,  25],
+        [ 19,  14,  23],
+        [ 17,  12,  21]]], dtype=uint8)
+orig_shape: (1920, 2560)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\photo-association-randonneurs-de-montrichard-scaled.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\quand-randonner-mois-de-l-annee.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[101, 102,  98],
+        [101, 102,  98],
+        [102, 103,  99],
+        ...,
+        [141, 157, 163],
+        [140, 156, 162],
+        [139, 155, 161]],
+
+       [[101, 102,  98],
+        [102, 103,  99],
+        [102, 103,  99],
+        ...,
+        [141, 157, 163],
+        [140, 156, 162],
+        [139, 155, 161]],
+
+       [[102, 103,  99],
+        [103, 104, 100],
+        [103, 104, 100],
+        ...,
+        [142, 158, 164],
+        [141, 157, 163],
+        [140, 156, 162]],
+
+       ...,
+
+       [[  6,  20,  39],
+        [  4,  15,  35],
+        [ 11,  19,  36],
+        ...,
+        [ 15,  12,   8],
+        [ 15,  12,   8],
+        [ 15,  12,   8]],
+
+       [[  3,  17,  36],
+        [  0,   8,  28],
+        [  0,   5,  22],
+        ...,
+        [ 14,  11,   7],
+        [ 14,  11,   7],
+        [ 14,  11,   7]],
+
+       [[ 35,  49,  68],
+        [ 25,  36,  56],
+        [  0,   4,  21],
+        ...,
+        [ 14,  11,   7],
+        [ 14,  11,   7],
+        [ 14,  11,   7]]], dtype=uint8)
+orig_shape: (438, 652)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\quand-randonner-mois-de-l-annee.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\rando.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[21, 77, 66],
+        [45, 82, 72],
+        [64, 92, 73],
+        ...,
+        [45, 76, 67],
+        [55, 84, 75],
+        [64, 91, 81]],
+
+       [[11, 68, 53],
+        [10, 68, 50],
+        [32, 77, 60],
+        ...,
+        [24, 52, 46],
+        [29, 55, 49],
+        [41, 66, 56]],
+
+       [[16, 56, 31],
+        [ 9, 52, 31],
+        [12, 42, 29],
+        ...,
+        [20, 39, 36],
+        [17, 38, 30],
+        [28, 50, 38]],
+
+       ...,
+
+       [[48, 70, 81],
+        [42, 67, 77],
+        [37, 63, 70],
+        ...,
+        [36, 90, 67],
+        [36, 87, 67],
+        [37, 88, 68]],
+
+       [[45, 69, 81],
+        [43, 70, 80],
+        [40, 67, 77],
+        ...,
+        [37, 89, 66],
+        [36, 85, 65],
+        [34, 85, 65]],
+
+       [[47, 74, 84],
+        [47, 74, 84],
+        [44, 69, 79],
+        ...,
+        [35, 87, 64],
+        [34, 83, 63],
+        [33, 84, 64]]], dtype=uint8)
+orig_shape: (517, 800)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\rando.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\Randonneur-Omnivore-1024x682.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[195, 125,  71],
+        [195, 125,  71],
+        [195, 125,  71],
+        ...,
+        [201, 142,  97],
+        [201, 142,  97],
+        [201, 142,  97]],
+
+       [[195, 125,  71],
+        [195, 125,  71],
+        [195, 125,  71],
+        ...,
+        [201, 142,  97],
+        [201, 142,  97],
+        [201, 142,  97]],
+
+       [[193, 126,  71],
+        [193, 126,  71],
+        [193, 126,  71],
+        ...,
+        [201, 142,  97],
+        [201, 142,  97],
+        [201, 142,  97]],
+
+       ...,
+
+       [[ 33,  81,  99],
+        [ 39,  76,  98],
+        [ 35,  66,  91],
+        ...,
+        [128, 143, 182],
+        [129, 163, 199],
+        [144, 197, 230]],
+
+       [[ 23, 100,  92],
+        [ 35, 134, 126],
+        [ 36, 129, 128],
+        ...,
+        [116, 145, 182],
+        [112, 160, 196],
+        [145, 188, 227]],
+
+       [[ 22, 110,  97],
+        [ 50, 155, 144],
+        [ 42, 137, 133],
+        ...,
+        [122, 151, 188],
+        [110, 158, 194],
+        [138, 181, 220]]], dtype=uint8)
+orig_shape: (682, 1024)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\Randonneur-Omnivore-1024x682.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\randonneurs2.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[176, 174, 164],
+        [176, 174, 164],
+        [176, 174, 164],
+        ...,
+        [ 13, 121, 133],
+        [  0, 107, 121],
+        [  1, 115, 128]],
+
+       [[176, 174, 164],
+        [176, 174, 164],
+        [176, 174, 164],
+        ...,
+        [ 22, 130, 142],
+        [ 13, 125, 138],
+        [  0, 110, 126]],
+
+       [[176, 174, 164],
+        [175, 173, 163],
+        [175, 173, 163],
+        ...,
+        [ 15, 127, 145],
+        [  0, 108, 126],
+        [ 15, 122, 143]],
+
+       ...,
+
+       [[ 11, 134, 162],
+        [ 24, 149, 177],
+        [ 18, 139, 165],
+        ...,
+        [ 61, 121, 180],
+        [ 84, 144, 203],
+        [ 74, 124, 182]],
+
+       [[  5, 131, 156],
+        [ 24, 151, 176],
+        [ 31, 159, 182],
+        ...,
+        [ 60, 120, 180],
+        [ 37, 104, 165],
+        [ 31, 106, 162]],
+
+       [[ 26, 154, 177],
+        [ 37, 164, 185],
+        [ 35, 160, 181],
+        ...,
+        [ 38, 101, 159],
+        [ 34, 104, 163],
+        [ 49, 129, 182]]], dtype=uint8)
+orig_shape: (647, 1150)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\randonneurs2.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"
+D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs\unnamed.jpg,"ultralytics.engine.results.Results object with attributes:
+
+boxes: ultralytics.engine.results.Boxes object
+keypoints: ultralytics.engine.results.Keypoints object
+masks: None
+names: {0: 'person'}
+obb: None
+orig_img: array([[[114, 179, 217],
+        [116, 178, 214],
+        [137, 192, 229],
+        ...,
+        [197, 185, 167],
+        [197, 185, 167],
+        [197, 185, 167]],
+
+       [[102, 164, 204],
+        [114, 175, 215],
+        [134, 191, 230],
+        ...,
+        [195, 183, 165],
+        [194, 182, 164],
+        [194, 182, 164]],
+
+       [[123, 183, 229],
+        [ 88, 149, 193],
+        [ 99, 159, 201],
+        ...,
+        [196, 182, 163],
+        [195, 181, 162],
+        [194, 180, 161]],
+
+       ...,
+
+       [[ 15,   0,  13],
+        [  3,  20,  29],
+        [  4,   7,  21],
+        ...,
+        [ 39, 106, 133],
+        [ 53, 143, 173],
+        [ 83, 190, 217]],
+
+       [[ 73, 134, 174],
+        [ 70, 134, 164],
+        [ 93, 156, 177],
+        ...,
+        [ 32,  89, 115],
+        [ 32, 112, 141],
+        [ 50, 143, 168]],
+
+       [[ 83, 167, 202],
+        [ 42,  91, 131],
+        [  2,  74, 121],
+        ...,
+        [ 30,  75, 102],
+        [ 39, 108, 141],
+        [ 10,  89, 110]]], dtype=uint8)
+orig_shape: (165, 512)
+path: 'D:\\Folders\\Code\\Python\\AttendancePNE-OFB\\datasets\\Randonneurs\\unnamed.jpg'
+probs: None
+save_dir: None
+speed: {'preprocess': 3.941913445790609, 'inference': 120.818297068278, 'postprocess': 0.5755424499511719}"

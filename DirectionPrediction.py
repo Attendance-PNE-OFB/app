@@ -6,75 +6,102 @@ Created on Wed Jan 31 13:34:10 2024
 """
 
 # Si 1 left et 1 verticale alors prendre l'avis de la tete
-from functions import GetImage
+from functions import GetImage,PathManagement
 from Directions import GetDirection
-from DataManagment import GetCsvDatas, GetMetadonnee, GetMetadonnee
+from DataManagment import GetCsvDatas, PathLeaf
 from Prediction import PositionImages
 from PIL import Image
+from extractMetadata import extract_metadata, dictionary_to_json
+import json
+from PIL import Image, ExifTags
 
 """
 [left,right,up,down,vertical]
 [0,0,0,0,0]
 """
 
-from PIL import Image, ExifTags
+def PathChoice(choice):
+    match choice:
+        case 1:
+            return 'D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousEnsemble'
+        case 2:
+            return 'D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble'
+        case _:
+            return 'D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble'
+
 # Open the image file
-def main():
+def main(images_path='D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble',
+         prediction=False,path_prediction='D:\\Folders\\Code\\Python\\app\\results\\results.csv',
+         metadata_create=False,path_metadata='D:/Folders/Code/Python/app/output_json/metadata.json'):
     print("start")
-    #Chooose your photos
-    #images = GetImage("https://cdn-s-www.ledauphine.com/images/F8760FA5-EE86-4DE0-A872-DABEE3B5F0BF/NW_raw/ce-qui-semble-etre-une-evidence-pour-une-bonne-partie-des-pratiquants-ne-l-est-pas-forcement-pour-le-grand-public-photo-le-dl-th-g-1624931170.jpg")
-    #images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/")
-    #images = GetImage("D:/Folders/Code/Python/AttendancePNE-OFB/datasets/coco128/images/train2017/000000000036.jpg")
-    #images = GetImage("D:\Folders\Code\Python\AttendancePNE-OFB\datasets\Randonneurs")
-    #images = GetImage('D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/101_BTCF')
-    images = GetImage('D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble')
+
+    # Get your photos
+    images = GetImage(images_path)
 
     #For predict the images
-    #filename = PositionImages("yolov8n-pose.pt", images)
-    results = GetCsvDatas('D:\\Folders\\Code\\Python\\app\\results\\results_17.csv')[1:]
-    #•results = GetCsvDatas(filename)[1:]
-    for liste in results:
-        for i in range(1, len(liste)):
-            liste[i] = float(liste[i])
+    if prediction :
+        filename = PositionImages("yolov8n-pose.pt", images)
+        results = GetCsvDatas(filename)[1:]
+    else:
+        results = GetCsvDatas(path_prediction)[1:]
 
-    positions = ["left","right","up","down","vertical"]
+    # Class of the predictions
+    positions_head = ["left","right","up","down","vertical"]
+
+    for liste in results: #For each predictions
+        for i in range(1, len(liste)):  # For each predicitons predicted
+            liste[i] = float(liste[i])  # Converte the str in float
+
+    if metadata_create:
+        metadatas = (extract_metadata(images_path)) # Extraction des métadonnées des images du dossier 'sur'
+        path_metadata = dictionary_to_json(metadatas) # Conversion du dictionnaire en fichier json
+
+    with open(path_metadata) as file:
+        metadatas = file.read()
+        metadatas = json.loads(metadatas)
+
+
+    total_directions = 0
+    total_good_predictions= 0
+    metadata_direction_key = "direction"
 
     for result in results:
-        print("Image : ", result[0])
-
-        """
-        size=34
-        result = [result[i:i+size] for i in range(1, len(result), size)] #Nséparate the peoples
-        if len(result) > 0 and len(result[0]) > 0:
-            for j in range(len(result)):
-                person = result[j]
-                print("Personne ",j)
-                directions = GetDirection(person)
-                #directions = GetDirection(person,get_keypoint)
-                for k in range(len(directions)):
-                    direction = directions[k]
-                    if direction!=0:
-                        print(positions[k],": ",direction)
-                print()
-        """
         image_path = result[0]
-        result = result[1:]
-        directions = GetDirection(result)
+        image_name = PathLeaf(result[0])
 
+        result = result[1:]                 # all the skeletons points
+        directions = GetDirection(result)   # Get the directions
 
-
-        if directions[0]> directions[1]:
-            print("LEFT")
-        elif directions[1]> directions[0]:
-            print("RIGHT")
-        else:
-            for k in range(len(directions)):
+        answer = ''
+        if directions[0]> directions[1]:    # If majority of left
+            answer = "gauche"
+        elif directions[1]> directions[0]:  # If majority of right
+            answer = "droite"
+        elif directions[2]>directions[3] and directions[3]>directions[0]:   # If majority of up without superior left or right
+            answer = "part"
+        elif directions[2]<directions[3] and directions[2]>directions[0]:   # If majority of up without superior left or right
+            answer = "regarde la camera"
+        elif directions[4]>0: # If it have verticality without predefine direction
+            answer = "verticale"
+        else: # else displau the directions that we have
+            # checker ca au dessus
+            for k in range(len(directions)):# For all the directions
                 direction = directions[k]
                 if direction!=0:
-                    print(positions[k],": ",direction)
-        print()
+                    answer = str(positions_head[k])+": "+str(direction)
+            if answer == "":
+                answer = "rien"
 
-    print(GetMetadonnee('D:/Folders/Code/Python/app/datasets/Sample/20200709_20200802/sousousEnsemble'))
+        if image_name in metadatas:                                         # If our image is in our metadatas
+            if metadata_direction_key in metadatas[image_name]:             # If the direction is in our metadatas
+                total_directions = total_directions + 1                     # The total of prediction increase
+                if answer == metadatas[image_name][metadata_direction_key]: # If we have the good answer
+                    total_good_predictions = total_good_predictions + 1     # we give us a good point
+                else:                                                       # else display our errors
+                    print(image_name)
+                    print(answer, " != ",metadatas[image_name][metadata_direction_key])
+                    print()
+    print(str(total_good_predictions),"/",str(total_directions))
 
 if __name__ == '__main__':
-    main()
+    main(images_path=PathChoice(1), prediction=True,metadata_create=True)

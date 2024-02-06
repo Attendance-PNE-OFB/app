@@ -7,9 +7,11 @@ Created on Fri Feb  2 10:56:49 2024
 
 import csv
 import os
-from functions import GetKeypoint
+from functions import GetKeypoint, PathManagement
 from PIL import Image
 import exiftool
+import ntpath
+
 
 def CreateUnicCsv(filename):
     base_name, extension = os.path.splitext(filename)
@@ -86,6 +88,10 @@ def GetCsvDatas(path):
     return data_list
 
 
+def PathLeaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
+"""
 def GetMetadonnee(path):
     # Créer une instance de ExifTool
 
@@ -93,5 +99,4 @@ def GetMetadonnee(path):
         # Exécuter la commande pour obtenir les métadonnées des images dans le dossier
         metadata = et.execute_json("-json", "-r", "-ext", "jpg", path)
     return metadata
-
-
+"""
