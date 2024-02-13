@@ -61,6 +61,29 @@ def extract_metadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 
+def extract_activities(file_path) :
+    df = pd.read_csv(file_path)
+
+    dictionnaire_photos = {}
+
+    for i in range(df.shape[0]):
+
+        dictionnaire_activites = {}
+
+        # Parcourir chaque colonne d'activité
+        for nom_activite in df.columns[1:]:
+            # Si l'activité est présente, ajouter le nombre de personnes à l'activité correspondante
+            if nom_activite == 'Bicycle' and df.loc[i, nom_activite] > 0:
+                dictionnaire_activites['vtt'] = str(df.loc[i, nom_activite])
+            elif (nom_activite == 'Hiking equipment' and df.loc[i, nom_activite] > 0 ) or (nom_activite == 'Backpack' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Footwear' and df.loc[i, nom_activite] > 0):
+                dictionnaire_activites['randonnee'] = str(max(df.loc[i, 'Hiking equipment'], df.loc[i, 'Backpack'], df.loc[i, 'Footwear']))
+            elif nom_activite == 'Ski' and df.loc[i, nom_activite] > 0:
+                dictionnaire_activites['ski'] = str(df.loc[i, nom_activite])
+        # Ajouter l'information de la photo au dictionnaire
+        dictionnaire_photos[df.loc[i, 'photo']] = {'activites': dictionnaire_activites}
+
+    return(dictionnaire_photos)
+    
 def dictionary_to_json(dict):
     filename = create_unic_file(save_file_directory + 'metadata.json')
     f = open(filename, "w")
