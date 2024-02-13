@@ -2,6 +2,8 @@ import os
 import exiftool
 import re
 import json
+import pandas as pd
+
 
 save_file_directory = './output_json/'
 def extract_metadata(file_path):
@@ -11,15 +13,11 @@ def extract_metadata(file_path):
     age_pattern = r'^(((<|>)\d{1,2})|(\d{1,2}-\d{1,2}))ans$'
     direction_d_pattern = r'^droite.*'
     direction_g_pattern = r'^gauche.*'
-    type_pattern = [r'^rando.*', r'^trail.*', r'vtt.*']
+    type_pattern = [r'^rando.*', r'^trail.*', r'^vtt.*', r'^ski.*', r'^snowboard']
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
-    path = None
-    if os.name == 'nt':
-        path = os.path.join("C:/Users/esto5/anaconda3/envs/s101/Lib/site-packages/exiftool/exiftool.exe")
-
-    with exiftool.ExifTool(path) as et:
+    with exiftool.ExifTool() as et:
         # Obtention des métadonnées de toutes les images du dossier séléctionné
         metadata = et.execute_json("-json", "-r", "-ext", "jpg", file_path)
 
@@ -61,6 +59,7 @@ def extract_metadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 
+
 def extract_activities(file_path) :
     df = pd.read_csv(file_path)
 
@@ -83,7 +82,8 @@ def extract_activities(file_path) :
         dictionnaire_photos[df.loc[i, 'photo']] = {'activites': dictionnaire_activites}
 
     return(dictionnaire_photos)
-    
+
+
 def dictionary_to_json(dict):
     filename = create_unic_file(save_file_directory + 'metadata.json')
     f = open(filename, "w")
@@ -91,21 +91,21 @@ def dictionary_to_json(dict):
     for key in dict:
         json_obj = json.dumps(key, indent=0)
         f.write(json_obj+":{\n")
-        for data in dict[key]:
+        for i, (data, value) in enumerate(dict[key].items()):  # Iterate with indices
             cat_name = json.dumps(data)
             f.write("    " + cat_name + ":")
-            cat_val = json.dumps(dict[key][data])
-            if cat_name == "\"age\"":
-                f.write(cat_val + "\n")
-            else:
+            cat_val = json.dumps(value)
+            if i < len(dict[key]) - 1:  # Check if it's the last item
                 f.write(cat_val + ",\n")
+            else:
+                f.write(cat_val + "\n")
         if key == list(dict.keys())[-1]:
             f.write("}\n")
         else:
             f.write("},\n\n")
     f.write("}")
     f.close()
-    return filename
+
 
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
