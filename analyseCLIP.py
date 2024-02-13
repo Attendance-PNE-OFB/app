@@ -3,23 +3,23 @@ import pandas as pd
 from extractMetadata import extract_metadata, dictionary_to_json
 
 # Créer le fichier JSON en récupérant les métadonnées des images
-#dictionary_to_json(extract_metadata('~/media/aurelien/COSTE EXT/PROJET_DATA/20200709_20200802/101_BTCF'))
+#dictionary_to_json(extract_metadata('/home/aurelien/Documents/ProjetINFO5/input/100_BTCF'))
 
 # Charger le fichier JSON
-with open('output_json/metadata.json', 'r') as json_file:
+with open('output_json/metadata_100BTCF.json', 'r') as json_file:
     json_data = json.load(json_file)
 
 # Charger les données et les transformer en dictionnaire
 donnees = {
-    'man': 2150,
-    'women': 761,
-    '0-15': 839,
-    '15-35': 4,
-    '35-60': 2067,
-    '60-100': 1,
-    'hiker': 2766,
+    'man': 6173,
+    'women': 3798,
+    '0-15': 697,
+    '15-35': 8969,
+    '35-60': 305,
+    '60-100': 0,
+    'hiker': 9908,
     'skier': 0,
-    'moutain biker': 145
+    'moutain biker': 63
 }
 
 # Créer un dictionnaire à partir des données
@@ -168,4 +168,4 @@ except ZeroDivisionError:
 print("-------------CLIP-------------")
 print(f"Pourcentage d'identification de sexe correct : {(diff_man+diff_women)/2}")
 print(f"Pourcentage d'identification de tranches d'âge correct : {(diff_ages0_15+diff_ages15_35+diff_ages35_60+diff_ages60_)/4}")
-print(f"Pourcentage d'identification d'activitée correcte : {(diff_hiker+diff_skier+diff_moutain_biker)/3}")
+print(f"Pourcentage d'identification d'activité correcte : {(diff_hiker+diff_skier+diff_moutain_biker)/3}")

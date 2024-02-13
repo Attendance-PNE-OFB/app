@@ -11,16 +11,16 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
 # Chemin du répertoire contenant les images
-directory = "/media/aurelien/COSTE EXT/PROJET_DATA/20200709_20200802/100_BTCF"
+directory = "/home/aurelien/Documents/ProjetINFO5/input/100_BTCF"
 
 # Liste des extensions d'images prises en charge
 image_extensions = [".jpg", ".jpeg", ".png"]
 
 # Liste des catégories textuelles associées à chaque indice
-categories = ["man", "women", "0-15", "15-35", "35-60", "60-100", "hiker", "skier", "moutain biker"]
-sexe = ["man", "women"]
-age = ["0-15", "15-35", "35-60", "60-100"] #child, children, kid | teen, ado, adolescent, teenager | adult | senior
-activite = ["hiker", "skier", "moutain biker"]
+categories = ["man", "woman", "children", "adolescent", "adult", "senior", "it's a hiker", "it's a skier", "it's a bicyclist"]
+sexe = ["man", "woman"] #man, male, boy | woman, female, girl
+age = ["children", "adolescent", "adult", "senior"] #0-15, child, children, kid | 15-35, teen, ado, adolescent, teenager | 35-60, adult | 60-100, senior
+activite = ["it's a hiker", "it's a skier", "it's a bicyclist"] #hiker, walker | skier | moutain biker, bicyclist
 
 # Initialisation du dictionnaire pour stocker le nombre d'images trouvées pour chaque catégorie
 categorie_count = {categorie: 0 for categorie in categories}
@@ -194,7 +194,7 @@ Nombre d'individus trouvées pour la catégorie 'man': 2150
 Nombre d'individus trouvées pour la catégorie 'women': 761
 Nombre d'individus trouvées pour la catégorie 'kid': 195
 Nombre d'individus trouvées pour la catégorie 'teen': 8
-Nombre d'individus trouvées pour la catégorie 'adult': 2704
+Nombre d'individus trouvées pour la catégorie 'adult': a
 Nombre d'individus trouvées pour la catégorie 'senior': 4
 Nombre d'individus trouvées pour la catégorie 'hiker': 2766
 Nombre d'individus trouvées pour la catégorie 'skier': 0
@@ -226,7 +226,7 @@ Nombre d'individus trouvées pour la catégorie 'moutain biker': 145
 
 Output avec : categories = ["man", "women", "kid", "teenager", "adult", "senior", "hiker", "skier", "moutain biker"]
 Computing time:  204.96466140700068
-Nombre d'individus trouvées pour la catégorie 'man': 2150
+Nombre d'individus trouvées pour la catégorie 'man': 2150   
 Nombre d'individus trouvées pour la catégorie 'women': 761
 Nombre d'individus trouvées pour la catégorie 'kid': 189
 Nombre d'individus trouvées pour la catégorie 'teenager': 24
@@ -235,11 +235,59 @@ Nombre d'individus trouvées pour la catégorie 'senior': 4
 Nombre d'individus trouvées pour la catégorie 'hiker': 2766
 Nombre d'individus trouvées pour la catégorie 'skier': 0
 Nombre d'individus trouvées pour la catégorie 'moutain biker': 145
+
+Output avec : categories = ["male", "female", "children", "adolescent", "adult", "senior", "hiker", "skier", "moutain biker"]
+Computing time:  209.21722835200035
+Nombre d'individus trouvées pour la catégorie 'male': 2911
+Nombre d'individus trouvées pour la catégorie 'female': 0
+Nombre d'individus trouvées pour la catégorie 'children': 247
+Nombre d'individus trouvées pour la catégorie 'adolescent': 2555
+Nombre d'individus trouvées pour la catégorie 'adult': 109
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 2766
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'moutain biker': 145
+
+Output avec : categories = ["boy", "girl", "children", "adolescent", "adult", "senior", "hiker", "skier", "moutain biker"]
+Computing time:  216.35936191899964
+Nombre d'individus trouvées pour la catégorie 'boy': 2304
+Nombre d'individus trouvées pour la catégorie 'girl': 607
+Nombre d'individus trouvées pour la catégorie 'children': 247
+Nombre d'individus trouvées pour la catégorie 'adolescent': 2555
+Nombre d'individus trouvées pour la catégorie 'adult': 109
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 2766
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'moutain biker': 145
+
+Output avec : categories = ["man", "women", "children", "adolescent", "adult", "senior", "walker", "skier", "bicyclist"]
+Computing time:  204.04707614100062
+Nombre d'individus trouvées pour la catégorie 'man': 2150
+Nombre d'individus trouvées pour la catégorie 'women': 761
+Nombre d'individus trouvées pour la catégorie 'children': 247
+Nombre d'individus trouvées pour la catégorie 'adolescent': 2555
+Nombre d'individus trouvées pour la catégorie 'adult': 109
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'walker': 737
+Nombre d'individus trouvées pour la catégorie 'skier': 161
+Nombre d'individus trouvées pour la catégorie 'bicyclist': 2013
+
+Output avec : categories = ["man", "women", "children", "adolescent", "adult", "senior", "hiker", "skier", "bicyclist"]
+Computing time:  215.48729843
+Nombre d'individus trouvées pour la catégorie 'man': 2150
+Nombre d'individus trouvées pour la catégorie 'women': 761
+Nombre d'individus trouvées pour la catégorie 'children': 247
+Nombre d'individus trouvées pour la catégorie 'adolescent': 2555
+Nombre d'individus trouvées pour la catégorie 'adult': 109
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 2881
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'bicyclist': 30
 '''
 
 ''' dataset2 -> 100_BTCF
 Output avec : categories = ["man", "women", "0-15", "15-35", "35-60", "60-100", "hiker", "skier", "moutain biker"]
-Computing time:  866.1226209319993
+Computing time:  700.8178772619999
 Nombre d'individus trouvées pour la catégorie 'man': 7636
 Nombre d'individus trouvées pour la catégorie 'women': 2335
 Nombre d'individus trouvées pour la catégorie '0-15': 1887
@@ -249,6 +297,42 @@ Nombre d'individus trouvées pour la catégorie '60-100': 6
 Nombre d'individus trouvées pour la catégorie 'hiker': 9529
 Nombre d'individus trouvées pour la catégorie 'skier': 0
 Nombre d'individus trouvées pour la catégorie 'moutain biker': 442
+
+Output avec : categories = ["man", "women", "children", "adolescent", "adult", "senior", "hiker", "skier", "moutain biker"]
+Computing time:  692.9412942050003
+Nombre d'individus trouvées pour la catégorie 'man': 7636
+Nombre d'individus trouvées pour la catégorie 'women': 2335
+Nombre d'individus trouvées pour la catégorie 'children': 697
+Nombre d'individus trouvées pour la catégorie 'adolescent': 8969
+Nombre d'individus trouvées pour la catégorie 'adult': 305
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 9529
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'moutain biker': 442
+
+Output avec : categories = ["male", "female", "children", "adolescent", "adult", "senior", "hiker", "skier", "moutain biker"]
+Computing time:  697.60131594
+Nombre d'individus trouvées pour la catégorie 'male': 9962
+Nombre d'individus trouvées pour la catégorie 'female': 9
+Nombre d'individus trouvées pour la catégorie 'children': 697
+Nombre d'individus trouvées pour la catégorie 'adolescent': 8969
+Nombre d'individus trouvées pour la catégorie 'adult': 305
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 9529
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'moutain biker': 442
+
+Output avec : categories = ["man", "women", "children", "adolescent", "adult", "senior", "hiker", "skier", "bicyclist"]
+Computing time:  707.7005316210007
+Nombre d'individus trouvées pour la catégorie 'man': 7636
+Nombre d'individus trouvées pour la catégorie 'women': 2335
+Nombre d'individus trouvées pour la catégorie 'children': 697
+Nombre d'individus trouvées pour la catégorie 'adolescent': 8969
+Nombre d'individus trouvées pour la catégorie 'adult': 305
+Nombre d'individus trouvées pour la catégorie 'senior': 0
+Nombre d'individus trouvées pour la catégorie 'hiker': 9788
+Nombre d'individus trouvées pour la catégorie 'skier': 0
+Nombre d'individus trouvées pour la catégorie 'bicyclist': 183
 '''
 
 
