@@ -4,8 +4,11 @@ import re
 import json
 import pandas as pd
 
-
+# Définition du dossier où on va stocker les JSON de sortie
 save_file_directory = './output_json/'
+
+# Fonction pour extraire les métadonnées utiles pour la comparaison des modèles
+# Il faut renseigner le dossier qui contient les images
 def extract_metadata(file_path):
     human_pattern = r'^humain.*'
     man_pattern = r'^homme.*'
@@ -59,6 +62,8 @@ def extract_metadata(file_path):
         result[metadata[i]['File:FileName']] = data
     return result
 
+# Fonction pour extraire des métadonnées les activités 
+# Il faut renseigner le fichier CSV de sortie du modèle
 def extract_activities(file_path) :
     df = pd.read_csv(file_path)
 
@@ -82,7 +87,7 @@ def extract_activities(file_path) :
 
     return(dictionnaire_photos)
 
-
+# Fonction pour transformer le dictionnaire en JSON
 def dictionary_to_json(dict, file_path):
     filename = create_unic_file(save_file_directory + 'metadata_' + os.path.basename(file_path) + '.json')
     f = open(filename, "w")
@@ -105,7 +110,7 @@ def dictionary_to_json(dict, file_path):
     f.write("}")
     f.close()
 
-
+# Fonction pour s'assurer que le fichier qu'on va créer ne va pas écraser un fichier existant du même nom
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
     counter = 0
