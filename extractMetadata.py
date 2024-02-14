@@ -83,8 +83,8 @@ def extract_activities(file_path) :
     return(dictionnaire_photos)
 
 
-def dictionary_to_json(dict):
-    filename = create_unic_file(save_file_directory + 'metadata.json')
+def dictionary_to_json(dict, file_path):
+    filename = create_unic_file(save_file_directory + 'metadata_' + os.path.basename(file_path) + '.json')
     f = open(filename, "w")
     f.write("{\n")
     for key in dict:
