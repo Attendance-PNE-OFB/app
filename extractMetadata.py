@@ -7,7 +7,8 @@ import pandas as pd
 #Définition du dossier où on va stocker les JSON de sortie
 save_file_directory = './output_json/'
 
-
+# Fonction pour extraire les métadonnées utiles pour la comparaison des modèles
+# Il faut renseigner le dossier qui contient les images
 def extract_metadata(file_path):
     human_pattern = r'^humain.*'
     man_pattern = r'^homme.*'
@@ -15,7 +16,7 @@ def extract_metadata(file_path):
     age_pattern = r'^(((<|>)\d{1,2})|(\d{1,2}-\d{1,2}))ans$'
     direction_d_pattern = r'^droite.*'
     direction_g_pattern = r'^gauche.*'
-    type_pattern = [r'^rando.*', r'^trail.*', r'^vtt.*', r'^ski.*', r'^trek.*']
+    type_pattern = [r'^rando.*', r'^trail.*', r'^vtt.*', r'^ski.*', r'^snowboard', r'^trek.*']
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
@@ -30,7 +31,7 @@ def extract_metadata(file_path):
         direction = [] # liste de direction [droite, gauche]
         cat_age = []  # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
         type = []  # liste de type d'activité [rando, trail, vtt, ...]
-        print(metadata[i])
+
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
                 for k in range(len(type_pattern)):
@@ -61,22 +62,23 @@ def extract_metadata(file_path):
             data['genre'] = genre
             data['age'] = cat_age
         result[metadata[i]['SourceFile']] = data
-
     return result
 
-
-def extract_activities(file_path):
+# Fonction pour extraire des métadonnées les activités 
+# Il faut renseigner le fichier CSV de sortie du modèle
+def extract_activities(file_path) :
     df = pd.read_csv(file_path)
 
     dictionnaire_photos = {}
 
     for i in range(df.shape[0]):
+
         liste_activites = []
 
         # Parcourir chaque colonne d'activité
         for nom_activite in df.columns[1:]:
             # Si l'activité est présente, ajouter le nombre de personnes à l'activité correspondante
-            if (nom_activite == 'Bicycle' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle helmet' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle wheel' and df.loc[i, nom_activite] > 0):
+            if(nom_activite == 'Bicycle' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle helmet' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle wheel' and df.loc[i, nom_activite] > 0):
                 for i in range(max(df.loc[i, 'Bicycle'], df.loc[i, 'Bicycle helmet'], df.loc[i, 'Bicycle wheel'])):
                     liste_activites.append('vtt')
             elif (nom_activite == 'Hiking equipment' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Backpack' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Human body' and df.loc[i, nom_activite] > 0):
@@ -88,15 +90,15 @@ def extract_activities(file_path):
             elif nom_activite == 'Tent' and df.loc[i, nom_activite] > 0:
                 for l in range(df.loc[i, 'Tent']):
                     liste_activites.append('trekking')
-        # Ajouter l'information de la photo au dictionnaire
-        if len(liste_activites) > 0:
-            dictionnaire_photos[df.loc[i, 'photo']] = {'activites': liste_activites}
+            # Ajouter l'information de la photo au dictionnaire
+            if len(liste_activites) > 0:
+                dictionnaire_photos[df.loc[i, 'photo']] = {'activites': liste_activites}
 
-    return(dictionnaire_photos)
+    return dictionnaire_photos
 
-
-def dictionary_to_json(dict):
-    filename = create_unic_file(save_file_directory + 'metadata.json')
+# Fonction pour transformer le dictionnaire en JSON
+def dictionary_to_json(dict, file_path):
+    filename = create_unic_file(save_file_directory + 'metadata_' + os.path.basename(file_path) + '.json')
     f = open(filename, "w")
     f.write("{\n")
     for key in dict:
@@ -117,7 +119,7 @@ def dictionary_to_json(dict):
     f.write("}")
     f.close()
 
-
+# Fonction pour s'assurer que le fichier qu'on va créer ne va pas écraser un fichier existant du même nom
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
     counter = 0
