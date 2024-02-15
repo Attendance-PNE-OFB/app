@@ -4,7 +4,7 @@ import re
 import json
 import pandas as pd
 
-
+#Définition du dossier où on va stocker les JSON de sortie
 save_file_directory = './output_json/'
 
 
