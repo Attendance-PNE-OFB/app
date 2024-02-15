@@ -4,11 +4,10 @@ import re
 import json
 import pandas as pd
 
-# Définition du dossier où on va stocker les JSON de sortie
+
 save_file_directory = './output_json/'
 
-# Fonction pour extraire les métadonnées utiles pour la comparaison des modèles
-# Il faut renseigner le dossier qui contient les images
+
 def extract_metadata(file_path):
     human_pattern = r'^humain.*'
     man_pattern = r'^homme.*'
@@ -16,13 +15,14 @@ def extract_metadata(file_path):
     age_pattern = r'^(((<|>)\d{1,2})|(\d{1,2}-\d{1,2}))ans$'
     direction_d_pattern = r'^droite.*'
     direction_g_pattern = r'^gauche.*'
-    type_pattern = [r'^rando.*', r'^trail.*', r'^vtt.*', r'^ski.*', r'^snowboard']
+    type_pattern = [r'^rando.*', r'^trail.*', r'^vtt.*', r'^ski.*', r'^trek.*']
 
     result = {}  # dictionnaire regroupant les noms des images, avec leurs informations sous forme de dictionnaire
 
     with exiftool.ExifTool() as et:
         # Obtention des métadonnées de toutes les images du dossier séléctionné
-        metadata = et.execute_json("-json", "-r", "-ext", "jpg", file_path)
+        extensions = ["jpg", "jpeg", "png"]
+        metadata = et.execute_json("-json", "-r", "-ext", *extensions, file_path)
 
     for i in range(len(metadata)):
         data = {}  # disctionnaire regroupant les informations de chaque image
@@ -30,7 +30,7 @@ def extract_metadata(file_path):
         direction = [] # liste de direction [droite, gauche]
         cat_age = []  # liste de catégorie d'âge [0-15, 15-35, 35-60, >60]
         type = []  # liste de type d'activité [rando, trail, vtt, ...]
-
+        print(metadata[i])
         if 'XMP:Subject' in metadata[i]:
             for j in metadata[i]['XMP:Subject']:
                 for k in range(len(type_pattern)):
@@ -55,41 +55,48 @@ def extract_metadata(file_path):
                 elif re.match(direction_g_pattern, j):
                     direction.append(j)
 
+            data['date'] = metadata[i]['EXIF:DateTimeOriginal']
             data['type'] = type
             data['direction'] = direction
             data['genre'] = genre
             data['age'] = cat_age
-        result[metadata[i]['File:FileName']] = data
+        result[metadata[i]['SourceFile']] = data
+
     return result
 
-# Fonction pour extraire des métadonnées les activités 
-# Il faut renseigner le fichier CSV de sortie du modèle
-def extract_activities(file_path) :
+
+def extract_activities(file_path):
     df = pd.read_csv(file_path)
 
     dictionnaire_photos = {}
 
     for i in range(df.shape[0]):
-
-        dictionnaire_activites = {}
+        liste_activites = []
 
         # Parcourir chaque colonne d'activité
         for nom_activite in df.columns[1:]:
             # Si l'activité est présente, ajouter le nombre de personnes à l'activité correspondante
-            if nom_activite == 'Bicycle' and df.loc[i, nom_activite] > 0:
-                dictionnaire_activites['vtt'] = str(df.loc[i, nom_activite])
-            elif (nom_activite == 'Hiking equipment' and df.loc[i, nom_activite] > 0 ) or (nom_activite == 'Backpack' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Footwear' and df.loc[i, nom_activite] > 0):
-                dictionnaire_activites['randonnee'] = str(max(df.loc[i, 'Hiking equipment'], df.loc[i, 'Backpack'], df.loc[i, 'Footwear']))
+            if (nom_activite == 'Bicycle' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle helmet' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Bicycle wheel' and df.loc[i, nom_activite] > 0):
+                for i in range(max(df.loc[i, 'Bicycle'], df.loc[i, 'Bicycle helmet'], df.loc[i, 'Bicycle wheel'])):
+                    liste_activites.append('vtt')
+            elif (nom_activite == 'Hiking equipment' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Backpack' and df.loc[i, nom_activite] > 0) or (nom_activite == 'Human body' and df.loc[i, nom_activite] > 0):
+                for j in range(max(df.loc[i, 'Hiking equipment'], df.loc[i, 'Backpack'], df.loc[i, 'Human body'])):
+                    liste_activites.append('randonnee')
             elif nom_activite == 'Ski' and df.loc[i, nom_activite] > 0:
-                dictionnaire_activites['ski'] = str(df.loc[i, nom_activite])
+                for k in range(df.loc[i, 'Ski']):
+                    liste_activites.append('ski')
+            elif nom_activite == 'Tent' and df.loc[i, nom_activite] > 0:
+                for l in range(df.loc[i, 'Tent']):
+                    liste_activites.append('trekking')
         # Ajouter l'information de la photo au dictionnaire
-        dictionnaire_photos[df.loc[i, 'photo']] = {'activites': dictionnaire_activites}
+        if len(liste_activites) > 0:
+            dictionnaire_photos[df.loc[i, 'photo']] = {'activites': liste_activites}
 
     return(dictionnaire_photos)
 
-# Fonction pour transformer le dictionnaire en JSON
-def dictionary_to_json(dict, file_path):
-    filename = create_unic_file(save_file_directory + 'metadata_' + os.path.basename(file_path) + '.json')
+
+def dictionary_to_json(dict):
+    filename = create_unic_file(save_file_directory + 'metadata.json')
     f = open(filename, "w")
     f.write("{\n")
     for key in dict:
@@ -110,7 +117,7 @@ def dictionary_to_json(dict, file_path):
     f.write("}")
     f.close()
 
-# Fonction pour s'assurer que le fichier qu'on va créer ne va pas écraser un fichier existant du même nom
+
 def create_unic_file(filename):
     base_name, extension = os.path.splitext(filename)
     counter = 0
