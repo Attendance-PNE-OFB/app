@@ -90,8 +90,8 @@ for image_name in json_data:
     personnes_json = calculer_nombre_personnes(json_data[image_name])
 
     # Trouver l'indice du dictionnaire dans les dictionnaires contenant l'image_name
-    index_model1 = next((i for i, d in enumerate(df_model1) if d['photo'] == image_name), None)
-    index_model2 = next((i for i, d in enumerate(df_model2) if d['photo'] == image_name), None)
+    index_model1 = next((i for i, d in enumerate(df_model1) if os.path.basename(d['photo']) == image_name), None)
+    index_model2 = next((i for i, d in enumerate(df_model2) if os.path.basename(d['photo']) == image_name), None)
     # Si l'index est égal à None, c'est qu'il y a un problème. On devrait forcément avoir les images dans le JSON des métadonnées et dans les dict des
     # modèles yolo
     if (index_model1 != None):
